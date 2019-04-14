@@ -36,8 +36,7 @@ CREATE TABLE Acompanha (
 );
 
 CREATE TABLE Agente (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT
-                      NOT NULL,
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
     nome      TEXT    NOT NULL,
     telemovel INTEGER UNIQUE
                       NOT NULL
@@ -48,8 +47,7 @@ CREATE TABLE Agente (
 );
 
 CREATE TABLE Artista (
-    id            INTEGER PRIMARY KEY
-                          NOT NULL,
+    id            INTEGER PRIMARY KEY,
     nome          TEXT    NOT NULL
                           UNIQUE,
     salario       DOUBLE  CHECK (salario >= 0),
@@ -68,15 +66,15 @@ CREATE TABLE Atua (
     artista     INTEGER  REFERENCES Artista (ID),
     hora_inicio TEXT     NOT NULL,
     data        DATE     NOT NULL,
-    palcoNum    INTEGER  NOT NULL,
-    palcoZona   INTEGER  NOT NULL,
+    palco_num    INTEGER  NOT NULL,
+    palco_zona   INTEGER  NOT NULL,
 
     FOREIGN KEY (
         hora_inicio,
         data,
-        palcoNum,
-        palcoZona
-    ) REFERENCES Concerto (hora_inicio,data,palcoNum,palcoZona)
+        palco_num,
+        palco_zona
+    ) REFERENCES Concerto (hora_inicio,data,palco_num,palco_zona)
       ON DELETE RESTRICT
       ON UPDATE CASCADE,
 
@@ -84,8 +82,8 @@ CREATE TABLE Atua (
         artista,
         hora_inicio,
         data,
-        palcoNum,
-        palcoZona
+        palco_num,
+        palco_zona
     ),
 
     UNIQUE (
@@ -96,8 +94,7 @@ CREATE TABLE Atua (
 );
 
 CREATE TABLE Banca (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT
-                          NOT NULL,
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
     nome          TEXT    UNIQUE
                           NOT NULL,
     area          DOUBLE  NOT NULL
@@ -118,8 +115,7 @@ CREATE TABLE Banca (
 );
 
 CREATE TABLE Classificacao (
-    id   INTEGER PRIMARY KEY AUTOINCREMENT
-                 NOT NULL,
+    id   INTEGER PRIMARY KEY AUTOINCREMENT,
     tipo TEXT    UNIQUE
                  NOT NULL
 );
@@ -128,17 +124,17 @@ CREATE TABLE Concerto (
     hora_inicio TEXT    NOT NULL,
     hora_fim    TEXT    NOT NULL,
     data        DATE    NOT NULL,
-    palcoNum    INTEGER NOT NULL,
-    palcoZona   INTEGER NOT NULL,
+    palco_num    INTEGER NOT NULL,
+    palco_zona   INTEGER NOT NULL,
     PRIMARY KEY (
         hora_inicio DESC,
         data DESC,
-        palcoNum,
-        palcoZona
+        palco_num,
+        palco_zona
     ),
     FOREIGN KEY (
-        palcoNum,
-        palcoZona
+        palco_num,
+        palco_zona
     ) REFERENCES Palco (num, zona)
       ON DELETE RESTRICT
       ON UPDATE CASCADE
@@ -148,8 +144,7 @@ CREATE TABLE Convidado (
     participante INTEGER PRIMARY KEY
                          REFERENCES Participante (id) 
                          ON DELETE RESTRICT
-                         ON UPDATE CASCADE
-                         NOT NULL,
+                         ON UPDATE CASCADE,
     tipo         INTEGER REFERENCES Tipo (id) 
                          ON DELETE RESTRICT
                          ON UPDATE CASCADE
@@ -190,8 +185,7 @@ CREATE TABLE EncarregueConvidado (
 );
 
 CREATE TABLE Entidade (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT
-                      NOT NULL,
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
     nome      TEXT    NOT NULL
                       UNIQUE,
     telemovel INTEGER UNIQUE
@@ -203,15 +197,13 @@ CREATE TABLE Entidade (
 );
 
 CREATE TABLE Especialidade (
-    id   INTEGER  PRIMARY KEY AUTOINCREMENT
-                  NOT NULL,
+    id   INTEGER  PRIMARY KEY AUTOINCREMENT,
     nome TEXT     UNIQUE
                   NOT NULL
 );
 
 CREATE TABLE Funcionario (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT
-                          NOT NULL,
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
     nome          TEXT    NOT NULL,
     nif           INTEGER UNIQUE
                           NOT NULL
@@ -231,15 +223,13 @@ CREATE TABLE Funcionario (
 );
 
 CREATE TABLE Genero (
-    id   INTEGER PRIMARY KEY AUTOINCREMENT
-                 NOT NULL,
+    id   INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT    UNIQUE
                  NOT NULL
 );
 
 CREATE TABLE Nacionalidade (
-    id INTEGER PRIMARY KEY AUTOINCREMENT
-               NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT  UNIQUE
                NOT NULL
 );
@@ -271,8 +261,7 @@ CREATE TABLE Palco (
 );
 
 CREATE TABLE Participante (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT
-                          NOT NULL,
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
     nome          TEXT    NOT NULL,
     nif           INTEGER UNIQUE
                           NOT NULL
@@ -285,14 +274,12 @@ CREATE TABLE Participante (
 );
 
 CREATE TABLE Patrocinador (
-    id         INTEGER PRIMARY KEY AUTOINCREMENT
-                       NOT NULL,
-    patrocinio DOUBLE  NOT NULL
-                       CHECK (patrocinio > 100),
-    entidade   INTEGER REFERENCES Entidade (id) 
+    entidade   INTEGER REFERENCES Entidade (id)
                        ON DELETE CASCADE
                        ON UPDATE CASCADE
-                       NOT NULL
+                       PRIMARY KEY,
+    patrocinio DOUBLE  NOT NULL
+                       CHECK (patrocinio > 100)
 );
 
 CREATE TABLE Tem (
@@ -305,7 +292,6 @@ CREATE TABLE Tem (
     participante INTEGER REFERENCES Participante (id) 
                          ON DELETE CASCADE
                          ON UPDATE CASCADE
-                         NOT NULL
                          PRIMARY KEY,
     bilhete      INTEGER REFERENCES TipoBilhete (id) 
                          ON DELETE CASCADE
@@ -314,15 +300,13 @@ CREATE TABLE Tem (
 );
 
 CREATE TABLE Tipo (
-    id   INTEGER PRIMARY KEY AUTOINCREMENT
-                 NOT NULL,
+    id   INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT    UNIQUE
                  NOT NULL
 );
 
 CREATE TABLE TipoBilhete (
-    id          INTEGER  PRIMARY KEY AUTOINCREMENT
-                         NOT NULL,
+    id          INTEGER  PRIMARY KEY AUTOINCREMENT,
     nome        TEXT     NOT NULL,
     data_inicio DATE     NOT NULL,
     data_fim    DATE     NOT NULL,
@@ -331,6 +315,7 @@ CREATE TABLE TipoBilhete (
                          CHECK (acampamento == 0 OR 
                                 acampamento == 1),
     custo       DOUBLE   NOT NULL
+                         CHECK (custo >= 0)
 );
 
 CREATE TABLE Trabalha (
@@ -349,8 +334,7 @@ CREATE TABLE Trabalha (
 );
 
 CREATE TABLE Zona (
-    codigo   INTEGER PRIMARY KEY AUTOINCREMENT
-                     NOT NULL,
+    codigo   INTEGER PRIMARY KEY AUTOINCREMENT,
     custo_m2 DOUBLE  NOT NULL,
     area     DOUBLE  NOT NULL
                      CHECK (area > 0) 
