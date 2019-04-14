@@ -24,10 +24,14 @@ DROP TABLE IF EXISTS Trabalha;
 DROP TABLE IF EXISTS Zona;
 
 CREATE TABLE Acompanha (
-    menor  INTEGER REFERENCES Normal (participante) 
+    menor  INTEGER REFERENCES Normal (participante)
+                   ON DELETE CASCADE
+                   ON UPDATE CASCADE
                    PRIMARY KEY
                    NOT NULL,
     adulto INTEGER REFERENCES Normal (participante) 
+                   ON DELETE RESTRICT
+                   ON UPDATE CASCADE
                    NOT NULL
 );
 
@@ -49,30 +53,45 @@ CREATE TABLE Artista (
     nome          TEXT    NOT NULL
                           UNIQUE,
     salario       DOUBLE  CHECK (salario >= 0),
-    agente        INTEGER REFERENCES Agente (ID) 
-                          NOT NULL,
-    genero        INTEGER REFERENCES Genero (ID),
-    nacionalidade INTEGER REFERENCES Nacionalidade (ID) 
-                          NOT NULL
+    agente        INTEGER REFERENCES Agente (id) ON DELETE RESTRICT
+                                                 ON UPDATE CASCADE
+                                                 NOT NULL,
+    genero        INTEGER REFERENCES Genero (id) ON DELETE RESTRICT
+                                                 ON UPDATE CASCADE
+                                                 NOT NULL,
+    nacionalidade INTEGER REFERENCES Nacionalidade (id) ON DELETE RESTRICT
+                                                        ON UPDATE CASCADE
+                                                        NOT NULL
 );
 
 CREATE TABLE Atua (
     artista     INTEGER  REFERENCES Artista (ID),
-    hora_inicio DATETIME NOT NULL,
+    hora_inicio TEXT     NOT NULL,
     data        DATE     NOT NULL,
-    palco       INTEGER  REFERENCES Palco (ID) 
-                         NOT NULL,
+    palcoNum    INTEGER  NOT NULL,
+    palcoZona   INTEGER  NOT NULL,
+
     FOREIGN KEY (
         hora_inicio,
         data,
-        palco
-    ) REFERENCES Concerto,
+        palcoNum,
+        palcoZona
+    ) REFERENCES Concerto (hora_inicio,data,palcoNum,palcoZona)
+      ON DELETE RESTRICT
+      ON UPDATE CASCADE,
 
     PRIMARY KEY (
         artista,
         hora_inicio,
         data,
-        palco
+        palcoNum,
+        palcoZona
+    ),
+
+    UNIQUE (
+        artista,
+        hora_inicio,
+        data
     )
 );
 
@@ -84,11 +103,17 @@ CREATE TABLE Banca (
     area          DOUBLE  NOT NULL
                           CHECK (area > 0),
     zona          INTEGER REFERENCES Zona (codigo) 
+                          ON DELETE RESTRICT
+                          ON UPDATE CASCADE
                           NOT NULL,
     renda         DOUBLE  NOT NULL,
-    classificacao INTEGER REFERENCES Classificacao (ID) 
+    classificacao INTEGER REFERENCES Classificacao (id) 
+                          ON DELETE RESTRICT
+                          ON UPDATE CASCADE
                           NOT NULL,
     entidade      INTEGER REFERENCES Entidade (id) 
+                          ON DELETE RESTRICT
+                          ON UPDATE CASCADE
                           NOT NULL
 );
 
@@ -100,32 +125,49 @@ CREATE TABLE Classificacao (
 );
 
 CREATE TABLE Concerto (
-    hora_inicio DATETIME NOT NULL,
-    hora_fim    DATETIME NOT NULL,
-    data        DATE     NOT NULL,
-    palco       INTEGER  REFERENCES Palco (num) 
-                         NOT NULL,
+    hora_inicio TEXT    NOT NULL,
+    hora_fim    TEXT    NOT NULL,
+    data        DATE    NOT NULL,
+    palcoNum    INTEGER NOT NULL,
+    palcoZona   INTEGER NOT NULL,
     PRIMARY KEY (
         hora_inicio DESC,
         data DESC,
-        palco
-    )
+        palcoNum,
+        palcoZona
+    ),
+    FOREIGN KEY (
+        palcoNum,
+        palcoZona
+    ) REFERENCES Palco (num, zona)
+      ON DELETE RESTRICT
+      ON UPDATE CASCADE
 );
 
 CREATE TABLE Convidado (
     participante INTEGER PRIMARY KEY
                          REFERENCES Participante (id) 
+                         ON DELETE RESTRICT
+                         ON UPDATE CASCADE
                          NOT NULL,
-    tipo         INTEGER REFERENCES Tipo (ID) 
+    tipo         INTEGER REFERENCES Tipo (id) 
+                         ON DELETE RESTRICT
+                         ON UPDATE CASCADE
                          NOT NULL,
-    entidade     INTEGER REFERENCES Entidade (ID) 
+    entidade     INTEGER REFERENCES Entidade (id)
+                         ON DELETE SET NULL
+                         ON UPDATE CASCADE
 );
 
 CREATE TABLE EncarregueArtista (
-    artista     INTEGER REFERENCES Artista (ID) 
-                        NOT NULL,
-    funcionario INTEGER REFERENCES Funcionario (ID) 
-                        NOT NULL,
+    artista     INTEGER  REFERENCES Artista (id) 
+                         ON DELETE RESTRICT
+                         ON UPDATE CASCADE
+                         NOT NULL,
+    funcionario INTEGER  REFERENCES Funcionario (id) 
+                         ON DELETE RESTRICT
+                         ON UPDATE CASCADE
+                         NOT NULL,
     PRIMARY KEY (
         artista,
         funcionario
@@ -133,10 +175,14 @@ CREATE TABLE EncarregueArtista (
 );
 
 CREATE TABLE EncarregueConvidado (
-    convidado   INTEGER REFERENCES Convidado (participante) 
-                        NOT NULL,
-    funcionario INTEGER REFERENCES Funcionario (ID) 
-                        NOT NULL,
+    convidado   INTEGER  REFERENCES Convidado (participante) 
+                         ON DELETE RESTRICT
+                         ON UPDATE CASCADE
+                         NOT NULL,
+    funcionario INTEGER  REFERENCES Funcionario (id) 
+                         ON DELETE RESTRICT
+                         ON UPDATE CASCADE
+                         NOT NULL,
     PRIMARY KEY (
         convidado,
         funcionario
@@ -157,10 +203,10 @@ CREATE TABLE Entidade (
 );
 
 CREATE TABLE Especialidade (
-    id   INTEGER PRIMARY KEY AUTOINCREMENT
-                 NOT NULL,
-    nome TEXT    UNIQUE
-                 NOT NULL
+    id   INTEGER  PRIMARY KEY AUTOINCREMENT
+                  NOT NULL,
+    nome TEXT     UNIQUE
+                  NOT NULL
 );
 
 CREATE TABLE Funcionario (
@@ -174,9 +220,13 @@ CREATE TABLE Funcionario (
     morada        TEXT    NOT NULL,
     salario       DOUBLE  NOT NULL
                           CHECK (salario >= 0),
-    especialidade INTEGER REFERENCES Especialidade (ID) 
+    especialidade INTEGER REFERENCES Especialidade (id) 
+                          ON DELETE RESTRICT
+                          ON UPDATE CASCADE
                           NOT NULL,
-    nacionalidade INTEGER REFERENCES Nacionalidade (ID) 
+    nacionalidade INTEGER REFERENCES Nacionalidade (id) 
+                          ON DELETE RESTRICT
+                          ON UPDATE CASCADE
                           NOT NULL
 );
 
@@ -196,6 +246,8 @@ CREATE TABLE Nacionalidade (
 
 CREATE TABLE Normal (
     participante INTEGER REFERENCES Participante (id) 
+                         ON DELETE CASCADE
+                         ON UPDATE CASCADE
                          PRIMARY KEY
                          NOT NULL,
     menor_idade  INTEGER DEFAULT (0)
@@ -209,6 +261,8 @@ CREATE TABLE Palco (
     capacidade INTEGER NOT NULL
                        CHECK (capacidade > 0),
     zona       INTEGER REFERENCES Zona (codigo) 
+                       ON DELETE RESTRICT
+                       ON UPDATE CASCADE
                        NOT NULL,
     PRIMARY KEY (
         num,
@@ -224,7 +278,9 @@ CREATE TABLE Participante (
                           NOT NULL
                           CHECK (nif > 99999999 AND 
                                  nif < 1000000000),
-    nacionalidade INTEGER REFERENCES Nacionalidade (ID) 
+    nacionalidade INTEGER REFERENCES Nacionalidade (id) 
+                          ON DELETE RESTRICT
+                          ON UPDATE CASCADE
                           NOT NULL
 );
 
@@ -233,7 +289,9 @@ CREATE TABLE Patrocinador (
                        NOT NULL,
     patrocinio DOUBLE  NOT NULL
                        CHECK (patrocinio > 100),
-    entidade   INTEGER REFERENCES Entidade (ID) 
+    entidade   INTEGER REFERENCES Entidade (id) 
+                       ON DELETE CASCADE
+                       ON UPDATE CASCADE
                        NOT NULL
 );
 
@@ -245,9 +303,13 @@ CREATE TABLE Tem (
                          CHECK (ativado == 0 OR 
                                 ativado == 1),
     participante INTEGER REFERENCES Participante (id) 
+                         ON DELETE CASCADE
+                         ON UPDATE CASCADE
                          NOT NULL
                          PRIMARY KEY,
-    bilhete      INTEGER REFERENCES TipoBilhete (ID) 
+    bilhete      INTEGER REFERENCES TipoBilhete (id) 
+                         ON DELETE CASCADE
+                         ON UPDATE CASCADE
                          NOT NULL
 );
 
@@ -262,8 +324,8 @@ CREATE TABLE TipoBilhete (
     id          INTEGER  PRIMARY KEY AUTOINCREMENT
                          NOT NULL,
     nome        TEXT     NOT NULL,
-    data_inicio DATETIME NOT NULL,
-    data_fim    DATETIME NOT NULL,
+    data_inicio DATE     NOT NULL,
+    data_fim    DATE     NOT NULL,
     acampamento INTEGER  DEFAULT (0)
                          NOT NULL
                          CHECK (acampamento == 0 OR 
@@ -272,9 +334,13 @@ CREATE TABLE TipoBilhete (
 );
 
 CREATE TABLE Trabalha (
-    funcionario INTEGER REFERENCES Funcionario (ID) 
+    funcionario INTEGER REFERENCES Funcionario (id) 
+                        ON DELETE CASCADE
+                        ON UPDATE CASCADE
                         NOT NULL,
     zona        INTEGER REFERENCES Zona (codigo) 
+                        ON DELETE RESTRICT
+                        ON UPDATE CASCADE
                         NOT NULL,
     PRIMARY KEY (
         funcionario,
