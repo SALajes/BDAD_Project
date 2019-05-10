@@ -914,15 +914,15 @@ INSERT INTO EncarregueConvidado (convidado,funcionario) VALUES (97,17);
 INSERT INTO EncarregueConvidado (convidado,funcionario) VALUES (127,99);
 
 -- TIPOBILHETE
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (1,"Diario","09/07/2019","09/07/2019",0,"60");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (2,"Diario","09/07/2019","09/07/2019",1,"80");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (3,"Diario","10/07/2019","10/07/2019",0,"70");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (4,"Diario","10/07/2019","10/07/2019",1,"90");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (5,"Diario","11/07/2019","11/07/2019",0,"70");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (6,"Diario","11/07/2019","11/07/2019",1,"90");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (7,"Pass","09/07/2019","11/07/2019",0,"100");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (8,"Pass","09/07/2019","11/07/2019",1,"110");
-INSERT INTO TipoBilhete (id,nome,data_inicio,data_fim,acampamento,custo) VALUES (9,"VIP","09/07/2019","11/07/2019",1,"250");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (1,"Diario","09/07/2019",0,"60");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (2,"Diario","09/07/2019",1,"80");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (3,"Diario","10/07/2019",0,"70");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (4,"Diario","10/07/2019",1,"90");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (5,"Diario","11/07/2019",0,"70");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (6,"Diario","11/07/2019",1,"90");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (7,"Pass","09/07/2019",0,"100");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (8,"Pass","09/07/2019",1,"110");
+INSERT INTO TipoBilhete (id,nome,data_inicio,acampamento,custo) VALUES (9,"VIP","09/07/2019",1,"250");
 
 -- TEM
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (1,0,1,6);

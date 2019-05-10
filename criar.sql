@@ -36,7 +36,7 @@ CREATE TABLE Acompanha (
 );
 
 CREATE TABLE Agente (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    id        INTEGER PRIMARY KEY,
     nome      TEXT    NOT NULL,
     telemovel INTEGER UNIQUE
                       NOT NULL
@@ -94,7 +94,7 @@ CREATE TABLE Atua (
 );
 
 CREATE TABLE Banca (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    id            INTEGER PRIMARY KEY,
     nome          TEXT    UNIQUE
                           NOT NULL,
     area          DOUBLE  NOT NULL
@@ -115,7 +115,7 @@ CREATE TABLE Banca (
 );
 
 CREATE TABLE Classificacao (
-    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    id   INTEGER PRIMARY KEY,
     tipo TEXT    UNIQUE
                  NOT NULL
 );
@@ -185,7 +185,7 @@ CREATE TABLE EncarregueConvidado (
 );
 
 CREATE TABLE Entidade (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    id        INTEGER PRIMARY KEY,
     nome      TEXT    NOT NULL
                       UNIQUE,
     telemovel INTEGER UNIQUE
@@ -197,13 +197,13 @@ CREATE TABLE Entidade (
 );
 
 CREATE TABLE Especialidade (
-    id   INTEGER  PRIMARY KEY AUTOINCREMENT,
+    id   INTEGER  PRIMARY KEY,
     nome TEXT     UNIQUE
                   NOT NULL
 );
 
 CREATE TABLE Funcionario (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    id            INTEGER PRIMARY KEY,
     nome          TEXT    NOT NULL,
     nif           INTEGER UNIQUE
                           NOT NULL
@@ -223,13 +223,13 @@ CREATE TABLE Funcionario (
 );
 
 CREATE TABLE Genero (
-    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    id   INTEGER PRIMARY KEY,
     nome TEXT    UNIQUE
                  NOT NULL
 );
 
 CREATE TABLE Nacionalidade (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY,
     nome TEXT  UNIQUE
                NOT NULL
 );
@@ -261,7 +261,7 @@ CREATE TABLE Palco (
 );
 
 CREATE TABLE Participante (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    id            INTEGER PRIMARY KEY,
     nome          TEXT    NOT NULL,
     nif           INTEGER UNIQUE
                           NOT NULL
@@ -300,22 +300,25 @@ CREATE TABLE Tem (
 );
 
 CREATE TABLE Tipo (
-    id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    id   INTEGER PRIMARY KEY,
     nome TEXT    UNIQUE
                  NOT NULL
 );
 
 CREATE TABLE TipoBilhete (
-    id          INTEGER  PRIMARY KEY AUTOINCREMENT,
+    id          INTEGER  PRIMARY KEY,
     nome        TEXT     NOT NULL,
     data_inicio DATE     NOT NULL,
-    data_fim    DATE     NOT NULL,
-    acampamento INTEGER  DEFAULT (0)
-                         NOT NULL
+    acampamento INTEGER  NOT NULL
                          CHECK (acampamento == 0 OR 
                                 acampamento == 1),
     custo       DOUBLE   NOT NULL
-                         CHECK (custo >= 0)
+                         CHECK (custo >= 0),
+    UNIQUE (
+        nome,
+        data_inicio,
+        acampamento
+    )
 );
 
 CREATE TABLE Trabalha (
@@ -334,7 +337,7 @@ CREATE TABLE Trabalha (
 );
 
 CREATE TABLE Zona (
-    codigo   INTEGER PRIMARY KEY AUTOINCREMENT,
+    codigo   INTEGER PRIMARY KEY,
     custo_m2 DOUBLE  NOT NULL,
     area     DOUBLE  NOT NULL
                      CHECK (area > 0) 
