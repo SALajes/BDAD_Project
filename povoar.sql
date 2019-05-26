@@ -1004,11 +1004,11 @@ INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (76,0,76,2);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (77,0,77,4);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (78,0,78,2);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (79,0,79,6);
-INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (80,0,80,8);
+INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (80,1,80,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (81,0,81,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (82,0,82,9);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (83,0,83,8);
-INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (84,0,84,8);
+INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (84,1,84,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (85,1,85,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (86,0,86,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (87,0,87,8);
@@ -1020,10 +1020,10 @@ INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (92,0,92,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (93,0,93,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (94,0,94,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (95,0,95,9);
-INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (96,0,96,8);
+INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (96,1,96,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (97,1,97,9);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (98,0,98,8);
-INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (99,0,99,8);
+INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (99,1,99,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (100,0,100,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (101,0,101,8);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (102,0,102,8);
@@ -1132,7 +1132,7 @@ INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (204,0,204,2);
 INSERT INTO Tem (codigo,ativado,participante,bilhete) VALUES (205,0,205,3);
 
 -- ZONA
-INSERT INTO Zona (codigo,custo_m2,area) VALUES (1,1500,375); -- Fo1d Court
+INSERT INTO Zona (codigo,custo_m2,area) VALUES (1,1500,375); -- Food Court
 INSERT INTO Zona (codigo,custo_m2,area) VALUES (2,5000,500); -- Main Stage
 INSERT INTO Zona (codigo,custo_m2,area) VALUES (3,4000,375); -- Side Stage
 INSERT INTO Zona (codigo,custo_m2,area) VALUES (4,2000,245); -- Comercial Area
@@ -1328,7 +1328,7 @@ INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (2,"Sa
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (3,"Sagres 4 U",10,1,15000,2,3);
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (4,"EDP Charge",5,5,7500,6,4);
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (5,"Fnac Gaming",9,4,18000,5,5);
-INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (6,"Gant Wear",10,4,20000,3,7);
+INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (6,"Gant Wear",10,3,20000,3,7);
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (7,"Casablanca",9,1,13500,1,10);
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (8,"Rodizio Fontes",8,1,12000,1,11);
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (9,"Bonsai Sushi",6,1,9000,1,12);
@@ -1340,6 +1340,9 @@ INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (14,"B
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (15,"The Cru",6,1,9000,1,18);
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (16,"Starfish Snacks",8,1,12000,1,19);
 INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (17,"Plantification",8,1,12000,1,20);
+INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (18,"Chill Lounge",4,5,9000,2,3);
+INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (19,"Fnac Apparel",5,4,17000,3,5);
+INSERT INTO Banca (id,nome,area,zona,renda,classificacao,entidade) VALUES (20,"Sagres 2 Go",12,2,2000,1,3);
 
 -- TRABALHA
 INSERT INTO Trabalha (funcionario,zona) VALUES (1,2);

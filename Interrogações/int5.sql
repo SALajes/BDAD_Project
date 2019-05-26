@@ -2,20 +2,29 @@
 .headers ON
 .nullvalue NULL
 
-CREATE VIEW BancasMaiorAreaPorClassificacao AS
-SELECT Banca.nome as BancaNome, max(Banca.area) as Area, Classificacao.tipo as BancaClassificacao, Zona.codigo as ZonaCod
+CREATE VIEW IF NOT EXISTS BancasMaiorAreaPorClassificacao AS
+SELECT Banca.nome as Banca, max(Banca.area) as Area, Classificacao.tipo as Tipo, Zona.codigo as Zona
 FROM Banca JOIN Classificacao JOIN Zona
 WHERE Banca.classificacao = Classificacao.id AND Banca.zona = Zona.codigo
 GROUP BY Banca.classificacao;
 
-SELECT *, 0
+CREATE VIEW IF NOT EXISTS BancasComPalcos AS
+SELECT Banca, Area, Tipo, BancasMaiorAreaPorClassificacao.Zona
+FROM BancasMaiorAreaPorClassificacao JOIN Palco
+WHERE BancasMaiorAreaPorClassificacao.Zona = Palco.zona;
+
+
+SELECT Banca, Area, Tipo, Zona, 'nao existem' as Palcos
 FROM BancasMaiorAreaPorClassificacao
-WHERE NOT EXISTS (      SELECT * 
-                        FROM BancasMaiorAreaPorClassificacao JOIN Palco
-                        WHERE BancasMaiorAreaPorClassificacao.ZonaCod = Palco.zona)
+EXCEPT
+SELECT *, 'nao existem' as Palcos
+FROM BancasComPalcos
 UNION
-SELECT *, 1
+SELECT BancasMaiorAreaPorClassificacao.Banca as Banca, 
+       BancasMaiorAreaPorClassificacao.Area as Area, 
+       BancasMaiorAreaPorClassificacao.Tipo as Tipo, 
+       BancasMaiorAreaPorClassificacao.Zona as Zona, 
+       'existem' as Palcos
 FROM BancasMaiorAreaPorClassificacao
-WHERE EXISTS (  SELECT * 
-                FROM BancasMaiorAreaPorClassificacao JOIN Palco
-                WHERE BancasMaiorAreaPorClassificacao.ZonaCod = Palco.zona)
+    JOIN BancasComPalcos
+WHERE BancasMaiorAreaPorClassificacao.Banca = BancasComPalcos.Banca
