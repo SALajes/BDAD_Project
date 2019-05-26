@@ -3,10 +3,10 @@
 .nullvalue NULL
 
 CREATE VIEW BancasMaiorAreaPorClassificacao AS
-(SELECT Banca.nome as BancaNome, max(Banca.area) as Area, Classificacao.tipo as BancaClassificacao, Zona.codigo as ZonaCod
+SELECT Banca.nome as BancaNome, max(Banca.area) as Area, Classificacao.tipo as BancaClassificacao, Zona.codigo as ZonaCod
 FROM Banca JOIN Classificacao JOIN Zona
 WHERE Banca.classificacao = Classificacao.id AND Banca.zona = Zona.codigo
-GROUP BY Banca.classificacao)
+GROUP BY Banca.classificacao;
 
 SELECT *, 0
 FROM BancasMaiorAreaPorClassificacao
