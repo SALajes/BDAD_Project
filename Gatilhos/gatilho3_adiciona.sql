@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 Create Trigger DefineConvidado
 Before Insert On Convidado
 For Each Row

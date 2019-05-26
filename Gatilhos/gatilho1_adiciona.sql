@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 Create Trigger VerificaArea
 Before Insert On Banca
 For Each Row

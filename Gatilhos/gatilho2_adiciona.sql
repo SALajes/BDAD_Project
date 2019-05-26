@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 CREATE TRIGGER DefineRenda
 AFTER INSERT ON Banca
 Begin 
