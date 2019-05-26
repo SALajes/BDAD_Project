@@ -2,6 +2,15 @@
 .headers ON
 .nullvalue NULL
 
-SELECT Banca.nome as Banca, Banca.area as Area, Banca.zona as Zona, Classificacao.tipo as Tipo, Entidade.nome as Entidade
-FROM Classificacao JOIN Banca JOIN Entidade
-WHERE Classificacao.id = Banca.classificacao AND Entidade.id = Banca.entidade
+SELECT DISTINCT Participante.nome as Nome, Participante.nif as NIF, Tem.codigo as Bilhete, Entidade.nome as Entidade, Patrocinador.patrocinio as Patrocinio
+FROM Participante JOIN Convidado JOIN Entidade JOIN Patrocinador JOIN Banca JOIN Tem
+WHERE Participante.id = Convidado.participante 
+      AND Convidado.entidade = Entidade.id 
+      AND Patrocinador.entidade = Entidade.id 
+      AND Patrocinador.patrocinio >= 200000
+      AND Banca.entidade = Entidade.id
+      AND Tem.participante = Participante.id 
+      AND Tem.ativado = 1
+GROUP BY Participante.nome
+HAVING COUNT(Banca.id) > 1
+ORDER BY Entidade.nome
